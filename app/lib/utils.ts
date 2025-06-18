@@ -27,19 +27,22 @@ export function parseMarkdownToJson(markdownText: string): unknown | null {
     return null;
 }
 
-export function parseTripData(jsonString: string): Trip | null {
-    try {
-        const data: Trip = JSON.parse(jsonString);
 
-        return data;
+
+export function parseTripData(data: string | object): Trip | null {
+    try {
+        if (typeof data === 'string') {
+            return JSON.parse(data);
+        }
+        return data as Trip;
     } catch (error) {
         console.error("Failed to parse trip data:", error);
         return null;
     }
 }
 
-export function getFirstWord(input: string = ""): string {
-    return input.trim().split(/\s+/)[0] || "";
+export function getFirstWord(input: string | null | undefined = ""): string {
+    return (input ?? "").trim().split(/\s+/)[0] || "";
 }
 
 export const calculateTrendPercentage = (
